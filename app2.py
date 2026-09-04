@@ -15,10 +15,10 @@ def index():
     return """
     <h1>Sistema Biblioteca Escolar</h1>
     <p>Projeto iniciado com Python, Flask e MySQL.</p>
-    <a href="/alunos">Ver alunos cadastrados</a>
-    <a href="/professores">Ver professores cadastrados</a>
-    <a href="/bibliotecarios">Ver bibliotecarios cadastrados</a>
-    <a href="/livros">Ver livros cadastrados</a>
+    <a href="/alunos">Ver alunos cadastrados</a> </br>
+    <a href="/professores">Ver professores cadastrados</a> </br>
+    <a href="/bibliotecarios">Ver bibliotecarios cadastrados</a> </br>
+    <a href="/livros">Ver livros cadastrados</a> </br>
     """
 
 
