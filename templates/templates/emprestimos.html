@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+
+{% block conteudo %}
+
+
+<h2>Empréstimos Cadastrados</h2>
+
+
+<p>
+    {% if session.perfil in ['admin', 'bibliotecario'] %}
+        <a href="/emprestimos/novo">Registrar novo empréstimo</a>
+    {% endif %}
+</p>
+
+
+<form method="GET" action="/emprestimos">
+
+
+    <label>Filtrar por status:</label>
+
+
+    <select name="status">
+        <option value="">Todos</option>
+
+
+        <option value="Emprestado" {% if status == 'Emprestado' %}selected{% endif %}>
+            Emprestado
+        </option>
+
+
+        <option value="Devolvido" {% if status == 'Devolvido' %}selected{% endif %}>
+            Devolvido
+        </option>
+    </select>
+
+
+    <button type="submit">Filtrar</button>
+
+
+    <a href="/emprestimos">Limpar</a>
+
+
+</form>
+
+
+<br>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Aluno</th>
+            <th>Livro</th>
+            <th>Bibliotecário</th>
+            <th>Data Empréstimo</th>
+            <th>Previsão Devolução</th>
+            <th>Data Devolução</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+
+
+        {% for emprestimo in emprestimos %}
+
+
+        <tr>
+
+
+            <td>{{ emprestimo.id_emprestimo }}</td>
+            <td>{{ emprestimo.aluno }}</td>
+            <td>{{ emprestimo.livro }}</td>
+            <td>{{ emprestimo.bibliotecario }}</td>
+            <td>{{ emprestimo.data_emprestimo }}</td>
+            <td>{{ emprestimo.data_prevista_devolucao }}</td>
+            <td>{{ emprestimo.data_devolucao }}</td>
+            <td>{{ emprestimo.status }}</td>
+
+
+            <td>
+                {% if session.perfil in ['admin', 'bibliotecario'] and emprestimo.status == 'Emprestado' %}
+                    <a href="/emprestimos/devolver/{{ emprestimo.id_emprestimo }}">
+                        Devolver
+                    </a>
+                {% elif emprestimo.status == 'Emprestado' %}
+                    Emprestado
+                {% else %}
+                    Devolvido
+                {% endif %}
+            </td>
+
+
+        </tr>
+
+
+        {% endfor %}
+
+
+    </tbody>
+</table>
+
+
+{% endblock %}

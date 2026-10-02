@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+
+{% block conteudo %}
+
+
+<h2>Livros Cadastrados</h2>
+
+
+<p>
+    {% if session.perfil in ['admin', 'bibliotecario'] %}
+        <a href="/livros/novo">Cadastrar novo livro</a>
+    {% endif %}
+</p>
+
+
+<form method="GET" action="/livros">
+
+
+    <label>Pesquisar livro:</label>
+    <input type="text" name="pesquisa" value="{{ pesquisa }}" placeholder="Título, autor, categoria ou status">
+
+
+    <button type="submit">Pesquisar</button>
+
+
+    <a href="/livros">Limpar</a>
+
+
+</form>
+
+
+<br>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoria</th>
+            <th>Status</th>
+            {% if session.perfil in ['admin', 'bibliotecario'] %}
+                <th>Ações</th>
+            {% endif %}
+        </tr>
+    </thead>
+
+
+    <tbody>
+        {% for livro in livros %}
+        <tr>
+            <td>{{ livro.id_livro }}</td>
+            <td>{{ livro.titulo }}</td>
+            <td>{{ livro.autor }}</td>
+            <td>{{ livro.categoria }}</td>
+            <td>{{ livro.status }}</td>
+            {% if session.perfil in ['admin', 'bibliotecario'] %}
+            <td>
+                <a href="/livros/editar/{{ livro.id_livro }}">Editar</a>
+                |
+                <a href="/livros/excluir/{{ livro.id_livro }}"
+                   onclick="return confirm('Deseja realmente excluir este livro?')">
+                    Excluir
+                </a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
